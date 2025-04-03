@@ -1,12 +1,13 @@
-import React from "react";
-import Button from "./components/button";
+import { Route, Routes } from "react-router";
+import Navbar from "./components/navbar";
+import Home from "./page/home";
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="button" element={<Button />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </>
   );
