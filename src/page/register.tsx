@@ -3,6 +3,7 @@ import pic from "../assets/1.jpg";
 import google from "../assets/google.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Button from "../components/button";
 const Register: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 m-auto pt-10">
@@ -69,9 +70,7 @@ const Register: React.FC = () => {
                   </label>
                 </div>
 
-                <button className="w-full bg-purple-600 text-white py-2 rounded-lg mt-6 hover:bg-purple-700 transition duration-300">
-                  Create account
-                </button>
+                <Button label="Create Account" className="w-full mt-3" />
               </form>
 
               {/* Social Logins */}

@@ -1,7 +1,22 @@
 import React, { useState } from "react";
 import { Heart, X } from "lucide-react";
+type CardProps = {
+  title: string;
+  description: string;
+  image: string;
+  time: string;
+  onFavorite?: () => void;
+  onRemove?: () => void;
+};
 
-const Card = ({ title, description, image, time, onFavorite, onRemove }) => {
+const Card = ({
+  title,
+  description,
+  image,
+  time,
+  onFavorite,
+  onRemove,
+}: CardProps) => {
   return (
     <div className="rounded-2xl shadow-lg p-4 max-w-xs bg-white relative">
       <div className="relative">

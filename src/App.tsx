@@ -6,6 +6,7 @@ import Login from "./page/login";
 import Favorite from "./page/favorite";
 import Register from "./page/register";
 import Detail from "./page/storydetail";
+import Story from "./page/story";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/register" element={<Register />} />
         <Route path="detail" element={<Detail />} />
+        <Route path="/story" element={<Story />} />
       </Routes>
       <Footer />
     </>
