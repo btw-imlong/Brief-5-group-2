@@ -61,7 +61,7 @@ export default function Navbar() {
       {/* Desktop Menu (Visible only on larger screens) */}
       <div className="hidden sm:flex items-center gap-3 p-2 rounded-full border-2 border-purple-500 transition-all duration-300 hover:scale-105">
         <Link
-          to="/home"
+          to="/#"
           className="px-4 py-1 font-semibold hover:text-purple-600 transition-colors duration-300"
         >
           Home
