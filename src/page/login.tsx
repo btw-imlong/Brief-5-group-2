@@ -32,7 +32,7 @@ export default function LoginForm() {
           <h2 className="text-2xl font-bold mb-2">Already have an account!</h2>
           <p className="text-gray-600 mb-6">
             Don’t have an account?{" "}
-            <Link to="/resgister">
+            <Link to="/register">
               <span className="font-semibold text-purple-600">Sign In</span>.
             </Link>
           </p>

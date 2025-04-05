@@ -85,7 +85,7 @@ export default function Navbar() {
       {/* Sign up & Login buttons */}
       <div className="flex items-center gap-2 sm:gap-4">
         <Link
-          to="/signup"
+          to="/register"
           className="px-2 sm:px-4 py-1 font-semibold hover:underline"
         >
           Sign up
