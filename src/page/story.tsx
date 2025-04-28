@@ -169,7 +169,15 @@ export default function StoryPage() {
     <div className="min-h-screen bg-gray-50">
       <StoryFilter onFilterChange={handleFilterChange} />
 
-      <div className="p-4">
+      <div
+        className="p-<StoryCard
+                key={story.id}
+                story={story}
+                onFavorite={handleFavorite}
+                isFavorited={favorites.some((fav) => fav.id === story.id)} // Pass if story is in favorites
+              />
+            ))}4"
+      >
         {filteredStories.length === 0 ? (
           <div className="text-center text-gray-600 py-8">
             No stories found matching your criteria.
