@@ -1,41 +1,31 @@
+// Favorites.tsx
 import React from "react";
-import Pic from "../assets/image 9.png";
 import Card from "../components/card";
 
-const Favorite = () => {
+type FavoritesProps = {
+  favorites: any[]; // The array of favorite stories
+  onRemove: (story: any) => void; // Function to remove from favorites
+};
+
+const Favorites = ({ favorites = [], onRemove }: FavoritesProps) => {
   return (
-    <div className="w-full max-w-screen-xl mx-auto p-4 flex flex-col justify-start items-start">
-      <div className="w-full flex justify-between items-center mb-4">
-        <div className="flex justify-center items-center">
-          <h1 className="text-black text-4xl font-bold font-cinzel">
-            Your Favorite Story
-          </h1>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Favorites</h2>
+      {favorites.length === 0 ? (
+        <div className="text-center text-gray-600 py-8">No favorites yet.</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {favorites.map((story) => (
+            <Card
+              key={story.id}
+              story={story}
+              onFavorite={() => onRemove(story)} // Use the remove function
+            />
+          ))}
         </div>
-        <img
-          className="w-48 h-60 object-cover "
-          src={Pic}
-          alt="Favorite Story"
-        />
-      </div>
-      <div className="w-full p-4 flex flex-col justify-start items-start">
-        <div className="w-full flex flex-col justify-start items-start">
-          <div className="flex justify-center items-center">
-            <h2 className="text-black text-3xl font-extrabold font-commissioner">
-              All of your favorite stories are here
-            </h2>
-          </div>
-        </div>
-      </div>
-      <div>
-        <Card
-          title="Jack and the Beanstalk"
-          description="A magic bean leads Jack to uncover a world he knew nothing about."
-          image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Journeys_through_Bookland_-_a_new_and_original_plan_for_reading_applied_to_the_world%27s_best_literature_for_children_%281922%29_%2814783256495%29.jpg/220px-Journeys_through_Bookland_-_a_new_and_original_plan_for_reading_applied_to_the_world%27s_best_literature_for_children_%281922%29_%2814783256495%29.jpg"
-          time="16 mins"
-        />
-      </div>
+      )}
     </div>
   );
 };
 
-export default Favorite;
+export default Favorites;

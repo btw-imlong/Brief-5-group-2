@@ -1,24 +1,55 @@
-import { Route, Routes } from "react-router";
-import Navbar from "./components/navbar";
-import Home from "./page/home";
-import Footer from "./components/footter";
-import Login from "./page/login";
-import Favorite from "./page/favorite";
-import Register from "./page/register";
-import Detail from "./page/storydetail";
-import Story from "./page/story";
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/navbar"; // Corrected path if needed
+import Footer from "./components/footter"; // Corrected path if needed
+import Home from "./page/home"; // Corrected path if needed
+import Login from "./page/login"; // Corrected path if needed
+import Favorites from "./page/favorite"; // Corrected path if needed
+import Register from "./page/register"; // Corrected path if needed
+import Detail from "./page/storydetail"; // Corrected path if needed
+import StoryCard from "./page/story"; // Corrected path if needed
+import React, { useState } from "react";
 
 function App() {
+  const [favorites, setFavorites] = useState<any[]>([]);
+
+  // Function to add a story to favorites
+  const handleAddFavorite = (story: any) => {
+    if (!favorites.some((fav) => fav.id === story.id)) {
+      setFavorites((prevFavorites) => [...prevFavorites, story]);
+    }
+  };
+
+  // Function to remove a story from favorites
+  const handleRemoveFavorite = (story: any) => {
+    setFavorites((prevFavorites) =>
+      prevFavorites.filter((item) => item.id !== story.id)
+    );
+  };
+
   return (
     <>
       <Navbar />
       <Routes>
+        {/* Home route */}
         <Route path="/" element={<Home />} />
+        {/* Login route */}
         <Route path="/login" element={<Login />} />
-        <Route path="/favorite" element={<Favorite />} />
+        {/* Favorites route */}
+        <Route
+          path="/favorite"
+          element={
+            <Favorites favorites={favorites} onRemove={handleRemoveFavorite} />
+          }
+        />
+        {/* Register route */}
         <Route path="/register" element={<Register />} />
+        {/* Story detail route */}
         <Route path="/detail" element={<Detail />} />
-        <Route path="/story" element={<Story />} />
+        {/* Story page route, passing handleAddFavorite */}
+        <Route
+          path="/story"
+          element={<StoryCard onFavorite={handleAddFavorite} />}
+        />
       </Routes>
       <Footer />
     </>
