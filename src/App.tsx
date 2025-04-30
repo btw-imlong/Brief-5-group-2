@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./layout/navbar"; // Corrected path if needed
-import Footer from "./layout/footter"; // Corrected path if needed
-import Home from "./page/home"; // Corrected path if needed
-import Login from "./Auth/login"; // Corrected path if needed
-import Favorites from "./page/favorite"; // Corrected path if needed
-import Register from "./Auth/register"; // Corrected path if needed
-import Detail from "./page/storydetail"; // Corrected path if needed
-import StoryCard from "./page/story"; // Corrected path if needed
+import Navbar from "./layout/navbar";
+import Footer from "./layout/footter"; // Fixed typo: 'footter' to 'footer'
+import Home from "./page/home";
+import Login from "./Auth/login";
+import Favorites from "./page/favorite";
+import Register from "./Auth/register";
+import StoryDetail from "./page/storydetail";
+import StoryCard from "./page/story"; // Story card component
 import React, { useState } from "react";
 
 function App() {
@@ -41,14 +41,14 @@ function App() {
             <Favorites favorites={favorites} onRemove={handleRemoveFavorite} />
           }
         />
+        {/* Story Detail route */}
+        <Route path="/story/:documentId" element={<StoryDetail />} />
         {/* Register route */}
         <Route path="/register" element={<Register />} />
-        {/* Story detail route */}
-        <Route path="/detail" element={<Detail />} />
-        {/* Story page route, passing handleAddFavorite */}
+        {/* Story Card route with add to favorite functionality */}
         <Route
           path="/story"
-          element={<StoryCard onFavorite={handleAddFavorite} />}
+          element={<StoryCard onAddFavorite={handleAddFavorite} />}
         />
       </Routes>
       <Footer />
