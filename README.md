@@ -39,11 +39,9 @@ Fary Tales is designed to be a hub for fairy tale enthusiasts. The project featu
 - **Backend:**  
   - Node.js and Express for server logic.
   - Strapi (or a similar CMS) for managing content.
-  - MongoDB or PostgreSQL for data storage.
   
 - **Other Tools:**
   - Git for version control.
-  - Docker for containerization and easy deployment (optional).
 
 ## Installation
 
