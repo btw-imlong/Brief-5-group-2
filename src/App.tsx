@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./layout/navbar"; // Corrected path if needed
-import Footer from "./components/footter"; // Corrected path if needed
+import Footer from "./layout/footter"; // Corrected path if needed
 import Home from "./page/home"; // Corrected path if needed
-import Login from "./page/login"; // Corrected path if needed
+import Login from "./Auth/login"; // Corrected path if needed
 import Favorites from "./page/favorite"; // Corrected path if needed
-import Register from "./page/register"; // Corrected path if needed
+import Register from "./Auth/register"; // Corrected path if needed
 import Detail from "./page/storydetail"; // Corrected path if needed
 import StoryCard from "./page/story"; // Corrected path if needed
 import React, { useState } from "react";
