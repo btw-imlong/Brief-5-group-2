@@ -36,9 +36,6 @@ Fary Tales is designed to be a hub for fairy tale enthusiasts. The project featu
   - Tailwind CSS for fast and flexible styling.
   - Axios for interacting with backend APIs.
   
-- **Backend:**  
-  - Node.js and Express for server logic.
-  - Strapi (or a similar CMS) for managing content.
   
 - **Other Tools:**
   - Git for version control.
