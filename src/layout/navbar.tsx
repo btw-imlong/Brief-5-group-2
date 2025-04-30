@@ -1,12 +1,25 @@
 import pic from "../assets/logo.png";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Button from "../components/button";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check if the user is logged in based on token in localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token); // true if token exists, false if not
+  }, []); // This effect runs once when the component mounts
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove token from localStorage
+    setIsLoggedIn(false); // Update the state to reflect logged-out status
+  };
 
   return (
     <nav className="flex items-center justify-between px-6 py-2 w-full bg-white shadow-md">
@@ -82,18 +95,33 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Sign up & Login buttons */}
-      <div className="flex items-center gap-2 sm:gap-4">
-        <Link
-          to="/register"
-          className="px-2 sm:px-4 py-1 font-semibold hover:underline"
-        >
-          Sign up
-        </Link>
-        <Link to="/login">
-          <Button label="Login" />
-        </Link>
-      </div>
+      {/* Conditional rendering for Login and Register buttons */}
+      {!isLoggedIn && ( // Show buttons only if not logged in
+        <div className="flex items-center gap-2 sm:gap-4">
+          <Link
+            to="/register"
+            className="px-2 sm:px-4 py-1 font-semibold hover:underline"
+          >
+            Sign up
+          </Link>
+          <Link to="/login">
+            <Button label="Login" />
+          </Link>
+        </div>
+      )}
+
+      {/* If the user is logged in, show Profile and Logout options */}
+      {isLoggedIn && (
+        <div className="flex items-center gap-2 sm:gap-4">
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="px-4 py-1 font-semibold text-red-600 hover:underline"
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
