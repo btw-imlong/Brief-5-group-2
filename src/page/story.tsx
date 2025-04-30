@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import StoryCard from "../components/card"; // Import the StoryCard component
+import StoryCard from "../components/card"; // Your StoryCard component
 
-// Story filter component
+// StoryFilter component
 function StoryFilter({
   onFilterChange,
 }: {
@@ -21,8 +21,8 @@ function StoryFilter({
           axios.get("http://62.72.46.248:1337/api/story-types"),
           axios.get("http://62.72.46.248:1337/api/age-ranges"),
         ]);
-        setStoryTypes(typeRes.data.data);
-        setAgeGroups(ageRes.data.data);
+        setStoryTypes(typeRes.data.data || []);
+        setAgeGroups(ageRes.data.data || []);
       } catch (error) {
         console.error("Error fetching filters:", error);
       }
@@ -61,52 +61,50 @@ function StoryFilter({
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div className="mt-4 flex gap-4">
-        <h3 className="font-bold text-lg sm:text-2xl">Story Type:</h3>
-        <div className="flex flex-wrap gap-3 text-sm sm:text-lg">
-          {storyTypes.map((type) => (
-            <label key={type.id} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="accent-gray-500 w-4 h-4 sm:w-5 sm:h-5"
-                checked={selectedTypes.includes(type.id)}
-                onChange={() => handleTypeChange(type.id)}
-              />
-              {type.attributes?.name || type.name}
-            </label>
-          ))}
+      <div className="mt-4 flex flex-col gap-6">
+        <div className="flex flex-row gap-3">
+          <h3 className="font-bold text-lg sm:text-2xl">Story Type:</h3>
+          <div className="flex flex-wrap gap-3 text-sm sm:text-lg mt-1">
+            {storyTypes.map((type) => (
+              <label key={type.id} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="accent-gray-500 w-4 h-4 sm:w-5 sm:h-5"
+                  checked={selectedTypes.includes(type.id)}
+                  onChange={() => handleTypeChange(type.id)}
+                />
+                {type.attributes?.name || type.name}
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="mt-4 flex gap-4">
-        <h3 className="font-bold text-lg sm:text-2xl">Age Range:</h3>
-        <div className="flex flex-wrap gap-3 text-sm sm:text-lg">
-          {ageGroups.map((age) => (
-            <label key={age.id} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="accent-gray-500 w-4 h-4 sm:w-5 sm:h-5"
-                checked={selectedAges.includes(age.id)}
-                onChange={() => handleAgeChange(age.id)}
-              />
-              {age.attributes?.label || age.label}
-            </label>
-          ))}
+        <div className="flex flex-row gap-3">
+          <h3 className="font-bold text-lg sm:text-2xl">Age Range:</h3>
+          <div className="flex flex-wrap gap-3 text-sm sm:text-lg mt-1">
+            {ageGroups.map((age) => (
+              <label key={age.id} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="accent-gray-500 w-4 h-4 sm:w-5 sm:h-5"
+                  checked={selectedAges.includes(age.id)}
+                  onChange={() => handleAgeChange(age.id)}
+                />
+                {age.attributes?.label || age.label}
+              </label>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// Main Story Page
+// StoryPage (main)
 export default function StoryPage() {
   const [stories, setStories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({
-    search: "",
-    types: [],
-    ages: [],
-  });
+  const [filters, setFilters] = useState({ search: "", types: [], ages: [] });
   const [favorites, setFavorites] = useState<any[]>([]);
 
   useEffect(() => {
@@ -132,6 +130,13 @@ export default function StoryPage() {
     setFilters(newFilters);
   }, []);
 
+  const handleFavorite = (story: any) => {
+    const isAlreadyFavorited = favorites.some((fav) => fav.id === story.id);
+    if (!isAlreadyFavorited) {
+      setFavorites((prev) => [...prev, story]);
+    }
+  };
+
   const filteredStories = stories.filter((story) => {
     const data = story.attributes || story;
     const titleMatch = data.title
@@ -143,23 +148,14 @@ export default function StoryPage() {
 
     const typeMatch =
       filters.types.length === 0 ||
-      (data.story_type?.data &&
-        filters.types.includes(data.story_type.data.id));
+      (data.story_type && filters.types.includes(data.story_type.id));
 
     const ageMatch =
       filters.ages.length === 0 ||
-      (data.age_range?.data && filters.ages.includes(data.age_range.data.id));
+      (data.age_range && filters.ages.includes(data.age_range.id));
 
     return (titleMatch || summaryMatch) && typeMatch && ageMatch;
   });
-
-  const handleFavorite = (story: any) => {
-    // Check if the story is already in the favorites
-    const isAlreadyFavorited = favorites.some((fav) => fav.id === story.id);
-    if (!isAlreadyFavorited) {
-      setFavorites((prev) => [...prev, story]); // Add to favorites if not already present
-    }
-  };
 
   if (loading) {
     return <div className="text-center p-4">Loading stories...</div>;
@@ -168,16 +164,7 @@ export default function StoryPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <StoryFilter onFilterChange={handleFilterChange} />
-
-      <div
-        className="p-<StoryCard
-                key={story.id}
-                story={story}
-                onFavorite={handleFavorite}
-                isFavorited={favorites.some((fav) => fav.id === story.id)} // Pass if story is in favorites
-              />
-            ))}4"
-      >
+      <div className="p-4">
         {filteredStories.length === 0 ? (
           <div className="text-center text-gray-600 py-8">
             No stories found matching your criteria.
@@ -189,7 +176,7 @@ export default function StoryPage() {
                 key={story.id}
                 story={story}
                 onFavorite={handleFavorite}
-                isFavorited={favorites.some((fav) => fav.id === story.id)} // Pass if story is in favorites
+                isFavorited={favorites.some((fav) => fav.id === story.id)}
               />
             ))}
           </div>
