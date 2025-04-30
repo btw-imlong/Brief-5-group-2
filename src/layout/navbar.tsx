@@ -3,7 +3,7 @@ import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import Button from "./button";
+import Button from "../components/button";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

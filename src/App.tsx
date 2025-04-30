@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./components/navbar"; // Corrected path if needed
+import Navbar from "./layout/navbar"; // Corrected path if needed
 import Footer from "./components/footter"; // Corrected path if needed
 import Home from "./page/home"; // Corrected path if needed
 import Login from "./page/login"; // Corrected path if needed
