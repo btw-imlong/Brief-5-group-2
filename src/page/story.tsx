@@ -1,18 +1,51 @@
-import React, { useState, useEffect, useCallback } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import StoryCard from "../components/card"; // Your StoryCard component
+
+type StoryType = {
+  name: string;
+  id: string;
+  attributes: {
+    name: string;
+  };
+};
+
+type AgeGroupType = {
+  label: string;
+  id: string;
+  attributes: {
+    label: string;
+  };
+};
+
+type Story = {
+  id: string;
+  attributes: {
+    title: string;
+    summary: string;
+    story_type: { id: string };
+    age_range: { id: string };
+  };
+};
+
+type Filters = {
+  search: string;
+  types: string[];
+  ages: string[];
+};
 
 // StoryFilter component
 function StoryFilter({
   onFilterChange,
 }: {
-  onFilterChange: (filters: any) => void;
+  onFilterChange: (filters: Filters) => void;
 }) {
   const [search, setSearch] = useState("");
-  const [storyTypes, setStoryTypes] = useState<any[]>([]);
-  const [ageGroups, setAgeGroups] = useState<any[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<any[]>([]);
-  const [selectedAges, setSelectedAges] = useState<any[]>([]);
+  const [storyTypes, setStoryTypes] = useState<StoryType[]>([]);
+  const [ageGroups, setAgeGroups] = useState<AgeGroupType[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [selectedAges, setSelectedAges] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchFilters = async () => {
@@ -104,8 +137,12 @@ function StoryFilter({
 export default function StoryPage() {
   const [stories, setStories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ search: "", types: [], ages: [] });
-  const [favorites, setFavorites] = useState<any[]>([]);
+  const [filters, setFilters] = useState<Filters>({
+    search: "",
+    types: [],
+    ages: [],
+  });
+  const [favorites, setFavorites] = useState<Story[]>([]);
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -126,11 +163,11 @@ export default function StoryPage() {
     fetchStories();
   }, []);
 
-  const handleFilterChange = useCallback((newFilters: any) => {
+  const handleFilterChange = useCallback((newFilters: Filters) => {
     setFilters(newFilters);
   }, []);
 
-  const handleFavorite = (story: any) => {
+  const handleFavorite = (story: Story) => {
     const isAlreadyFavorited = favorites.some((fav) => fav.id === story.id);
     if (!isAlreadyFavorited) {
       setFavorites((prev) => [...prev, story]);
@@ -176,7 +213,10 @@ export default function StoryPage() {
                 key={story.id}
                 story={story}
                 onFavorite={handleFavorite}
-                isFavorited={favorites.some((fav) => fav.id === story.id)}
+                isFavorite={favorites.some((fav) => fav.id === story.id)}
+                onAddFavorite={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             ))}
           </div>
